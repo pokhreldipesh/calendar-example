@@ -30,6 +30,15 @@ The Calendar feature provides a user-friendly interface for viewing and managing
    ```bash
    composer install
    ```
+4. Copy the .env.example file to .env file:
+   ```bash
+   cp .env.example .env
+   ```
+5. Start the application:
+   ```bash
+   php artisan serve
+   ```
+5. Vitsit http://localhost:8000/ on your browser
 
 ## Configuration
 
