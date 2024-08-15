@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Calendar extends Component
@@ -36,20 +37,21 @@ class Calendar extends Component
      */
     public function mount(): void
     {
-        $this->date = $this->getByDate($this->date)->current->date;
+        $this->date = $this->cal->current->date;
         $this->today = $this->date;
     }
 
     /**
-     * Retrieves a MyCalendar instance for a given date.
+     * Retrieves a MyCalendar instance for a current calendar date.
      *
      * @param string|null $date
      * @return MyCalendar
      * @throws Exception
      */
-    public function getByDate(string $date = null): MyCalendar
+    #[Computed]
+    public function cal(): MyCalendar
     {
-        return new MyCalendar($date);
+        return (new MyCalendar($this->date));
     }
 
     /**
@@ -61,7 +63,7 @@ class Calendar extends Component
      */
     public function next(string $date): void
     {
-        $this->date = $this->getByDate($date)->nextMonth()->current->date;
+        $this->date = $this->cal->nextMonth()->current->date;
     }
 
     /**
@@ -73,7 +75,7 @@ class Calendar extends Component
      */
     public function prev(string $date): void
     {
-        $this->date = $this->getByDate($date)->prevMonth()->current->date;
+        $this->date = $this->cal->prevMonth()->current->date;
     }
 
     /**
@@ -124,7 +126,7 @@ class Calendar extends Component
     public function render(): View|Factory|Application
     {
         return view('livewire.calendar', [
-            'cal' => $this->getByDate($this->date)->setEvents(function($cal, $days) {
+            'cal' => $this->cal->setEvents(function($cal, $days) {
                 foreach ($days as $day) {
                     if (isset($this->events[$day->date])) {
                         $day->setEvent($this->events[$day->date]);

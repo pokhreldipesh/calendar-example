@@ -1,5 +1,6 @@
 <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-4">
     <!-- Calendar Header -->
+
     <div class="flex items-center justify-between bg-primary-500 text-white py-4 px-6 rounded-md mb-4">
         <!-- Previous Button -->
         <button class="text-secondary-500 hover:text-secondary-700" wire:click="prev('{{ $cal->current->date }}')">
@@ -45,7 +46,7 @@
 
                 <!-- Event at the Bottom -->
                 @if(!empty($day->event))
-                    <div class="text-sm truncate">{{ $day->event }}</div>
+                    <div class="text-sm truncate">{!! $day->event !!}</div>
                 @else
                     <div class="mt-1">&nbsp;</div> <!-- Placeholder for empty space -->
                 @endif
@@ -58,7 +59,7 @@
     @if($showModal)
         <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-                <h2 class="text-xl font-bold mb-4">Add Event on {{ $selectedDate }}</h2>
+                <h2 class="text-xl font-bold mb-4">Add Event on: {{ $cal->current->create($selectedDate)->format("Y/m/d") }}</h2>
 
                 <!-- Event Form -->
                 <form wire:submit.prevent="saveEvent">
